@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <title>Click Binding</title>
+</head>
+<body>
+        <div id="click1">
+                You've clicked <span data-bind="text: numberOfClicks"></span> times
+                <button data-bind="click: incrementClickCounter">Click me</button>
+        </div>
+             
+            <script type="text/javascript">
+                var viewModel = {
+                    numberOfClicks : ko.observable(0),
+                    incrementClickCounter : function() {
+                        var previousCount = this.numberOfClicks(); //reading observable
+                        this.numberOfClicks(previousCount + 1);// setting observable
+                    }
+                };
+
+                ko.applyBindings(viewModel,document.getElementById('click1'));
+            
+            </script>
+        <br><br><br>
+        ////////////////////// current item as parameter/////////////////////
+        
+        <div id="click2">
+            <ul data-bind="foreach: places">
+                <li>
+                    <span data-bind="text: $data"></span>
+                    <button data-bind="click: $parent.removePlace">Remove</button>
+                    <!-- if you’re inside a foreach or a with block, 
+                    but your handler function is on the root viewmodel or some other parent context, 
+                    you’ll need to use a prefix such as $parent or $root to locate the handler function. -->
+                </li>
+            </ul>
+        </div>
+
+        <script type="text/javascript">
+                 function MyViewModel() {
+                     var self = this;
+                     self.places = ko.observableArray(['London', 'Paris', 'Tokyo']);
+             
+                     // The current item will be passed as the first parameter,
+                     // so we know which place to remove
+                     self.removePlace = function(i) {
+                         console.log(i);
+                         self.places.remove('London')
+                     }
+                 }
+                 ko.applyBindings(new MyViewModel(),document.getElementById('click2'));
+
+        </script>
+
+<br><br>
+
+////////////////// event object  //////////////////////////////////////
+<br>
+<!-- to access the DOM event object associated with your click event.
+Knockout will pass the event as the second parameter to your function -->
+<h4>2nd parameter is event</h4>
+
+<div id="click3">
+    <button data-bind="click: myFunction">
+        GetEvent Click
+    </button>
+    <br> <br> 
+
+    <h4> parameter passing</h4>
+
+    <button data-bind="click: function(d,e) { myFunctionParameter('param1', 'param2'); clickme(d,e) }">
+            Pass parameters
+    </button>
+
+    <br><br>
+
+    <h4>Restricting and Enabling default behaviour</h4>
+    <a href="https://www.google.com" data-bind="click:testDefault">Check default Behaviour </a>
+    
+</div>
+     
+     <script type="text/javascript">
+        var viewModel2 = {
+            myFunction: function(data, event) {
+               console.log(event);
+            },
+            myFunctionParameter: function(param1,param2){
+
+                console.log(param1);
+                console.log(param2);
+            },
+            testDefault:function(){
+                console.log("a tag clicked");
+                //return false;
+                return true;
+            },
+            clickme:function(d,e){
+                console.log(d);
+            }
+        };
+        ko.applyBindings(viewModel2, document.getElementById('click3'));
+    </script>
+
+<br>
+<br>
+<br>
+////////// preventing the event bubbling /////////////////////////////
+<br>
+<br>
+<div id="click4">
+
+    <div data-bind="click: myDivHandler">
+            <button data-bind="click: myButtonHandler, clickBubble: false">
+                    Click me
+            </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var viewModel3 = {
+        myDivHandler:function(){
+            console.log("inside parent function");
+        },
+        myButtonHandler:function(){
+            console.log("inside child function");
+        }
+    };
+    ko.applyBindings(viewModel3, document.getElementById('click4'));
+</script>
+
+</body>
+</html>

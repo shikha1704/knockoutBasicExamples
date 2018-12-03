@@ -1,0 +1,96 @@
+<!-- changing name on the text box will change the name displayed in span because of observables -->
+<!-- displaying full name by concatinating two observable properties -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <title>Observable Basics</title>
+
+</head>
+
+<body>
+    <!-- //////////////////////// with observable ////////////////////////// -->
+    <h4>Observable</h4>
+    <div id="observableExample">
+        <div class="nameSection">
+            <span class="topicLabelSpan">FirstName:</span>
+            <span data-bind="text:firstName"></span>
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">LastName: </span>
+            <span data-bind="text:lastName"></span>
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">FirstName:</span>
+            <input type="text" data-bind="value:firstName">
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">LastName:</span>
+            <input type="text" data-bind="value:lastName">
+        </div>
+    </div>
+    <script>
+        function appViewModel() {
+            this.firstName = ko.observable("shikha");
+            this.lastName = ko.observable("chhugani");
+        }
+        ko.applyBindings(new appViewModel(), document.getElementById('observableExample'));
+    </script>
+
+    <!-- ////////////////////////////// computed observable ////////////////////// -->
+    <br>
+   
+    <h4>Computed Observables</h4>
+    <div id="computedObservable">
+        <div class="nameSection">
+            <span class="topicLabelSpan">FirstName:</span>
+            <span data-bind="text:firstName"></span>
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">LastName: </span>
+            <span data-bind="text:lastName"></span>
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">FirstName:</span>
+            <input type="text" data-bind="value:firstName">
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">LastName:</span>
+            <input type="text" data-bind="value:lastName">
+        </div>
+
+        <div class="nameSection">
+            <span class="topicLabelSpan">FullName: </span>
+            <input type="text" data-bind="value:fullName">
+        </div>
+
+    </div>
+    <script>
+        function appViewModelComputed() {
+            this.firstName = ko.observable("shikha");
+            this.lastName = ko.observable("chhugani");
+            this.fullName = ko.computed(function () {
+                return this.firstName() + ' ' + this.lastName();
+            }, this);
+        }
+        ko.applyBindings(new appViewModelComputed(), document.getElementById('computedObservable'));
+    </script>
+
+
+
+</body>
+
+</html>

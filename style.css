@@ -1,0 +1,99 @@
+
+
+.buttonSection{
+    height: 70px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    background: aliceblue;
+    border-bottom: 1px solid #ccc;
+    padding-left: 30%;
+}
+a {
+    text-decoration: none;
+}
+
+.topicLabel {
+    font-size: 18px;
+    font-family: segoe ui;
+    font-weight: 500;
+    width: 300px;
+    display: inline-block;
+}
+
+.topicLabelSpan{
+    font-size: 16px;
+    font-family: segoe ui;
+    font-weight: 500;
+    width: 100px;
+    display: inline-block;
+}
+
+.topicLabelAccount{
+    font-size: 16px;
+    font-family: segoe ui; 
+    width: 150px;
+    display: inline-block;
+}
+
+.topicLabelAccount1{
+    font-size: 16px;
+    font-family: segoe ui; 
+    width: 200px;
+    display: inline-block;
+}
+
+.btnWidth{
+    width: 230px;
+    background: #48C9B0;
+    border: #48C9B0;
+}
+
+.btnWidth:hover{
+    background: #17A589;
+}
+
+.btnWidth:focus{
+    background: #17A589;
+}
+
+.page-header{
+    text-align: center;
+    padding-top: 30px;
+    background: #17A589;
+    color: white;
+
+}
+
+.nameSection{
+    height: 40px;
+}
+
+#selectedAccount{
+    width: 100px;
+}
+.lengthDiv{
+    height: 30px;
+}
+.marginTop20{
+    margin-top: 30px;
+}
+
+.marginBottom{
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.tableWidth{
+    width: 30%;
+}
+
+.mouseoverDiv {
+    height: 150px;
+    width: 150px;
+    background: aliceblue;
+}
+
+.displayInline{
+    display: inline-flex;
+}

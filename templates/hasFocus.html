@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Has Focus</title>
+</head>
+<body style="margin: 20px;">
+    <h4>Has Focus</h4>
+    <div id="hasFocus">
+        <input data-bind="hasFocus: isSelected" />
+        <br><br>
+        <button class="btn btn-primary btnWidth" data-bind="click: setIsSelected">Focus programmatically</button>
+        <span data-bind="visible: isSelected">The textbox has focus</span>
+    </div>
+
+    <script>
+        var viewModel = {
+            isSelected: ko.observable(false),
+            setIsSelected: function() { this.isSelected(true) }
+        };
+        ko.applyBindings(viewModel,document.getElementById('hasFocus'));
+    </script>
+
+</body>
+</html>

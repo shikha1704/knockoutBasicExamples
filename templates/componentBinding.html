@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+</head>
+
+<body style="margin: 20px;">
+    <div class="marginBottom">
+        <h5>Component Binding</h5>
+        <div data-bind="component:{
+                    name:'login-component',
+                    params:{UserName:'U1',Password:'P1'}}"></div>
+    </div>
+
+    <!-- if parameters are not needed to be passed so 
+    <div data-bind ='component:"login-component"'></div> -->
+
+    <div>
+        <h5>Custom element</h5>
+        <login-component params="UserName:'U2',Password:'P2'">
+    </div>
+
+    </login-component>
+
+    <!-- <template id="login-template">
+        Username : <input type="text" data-bind="value:UserName"></br>
+        Password : <input type="text" data-bind="value:Password">
+    </template> -->
+
+    <script>
+
+        function LoginComponentViewModel(params) {
+            this.UserName = params.UserName;
+            this.Password = params.Password;
+        }
+        ko.components.register('login-component', {
+            viewModel: LoginComponentViewModel, // not instantiating, while runtime automatically an instance is created
+            //template:{element:'login-template'} 
+            template: ' Username : <input type="text" data-bind="value:UserName"></br>\
+                    Password : <input type="text" data-bind="value:Password">'
+            //giving template as string
+        })
+
+        ko.applyBindings();
+    </script>
+</body>
+
+</html>

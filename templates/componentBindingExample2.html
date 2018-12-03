@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+    td{
+        display: contents;
+    }
+    </style>
+</head>
+
+<body style="margin: 20px;">
+
+    <div class="marginBottom">
+        <h5>Account Details</h5>
+        <table data-bind="foreach:accounts">
+            <tr>
+                <td data-bind="text:id"></td>
+                <td data-bind="text:name"></td>
+                <td data-bind="text:balance"></td>
+                <td>
+                    <!-- <span data-bind="component:{
+                        name:'transaction-component'}"
+                       ></span> -->
+                    <span>
+                        <transaction-component params="transactionArray:transactions , accountHolder:name"></transaction-component>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <script>
+        ///model
+        var account = function (id, name, balance, trans) {
+            this.id = id;
+            this.name = name;
+            this.balance = balance;
+            this.transactions = trans;
+        };
+
+        //view model
+        var accountViewModel = function (acc) {
+            this.id = acc.id;
+            this.name = acc.name;
+            this.balance = ko.observable(acc.balance);
+            var a1 = new account(1, "A1", 10000, [200, -30, 20, 100, -40]);
+            var a2 = new account(2, "A2", 20000, [2000, -200, 1000]);
+            var a3 = new account(3, "A3", 30000, [345, 543, -40, -90, 100]);
+            this.accounts = ko.observableArray([a1, a2, a3]);
+        };
+
+
+        function TransactionViewModel(params) {
+            this.AccountHoldersName = params.accountHolder;
+            this.transactions = params.transactionArray;
+
+        }
+
+        ko.components.register('transaction-component', {
+            viewModel: TransactionViewModel,
+            template: '<div class="displayInline" data-bind="text:AccountHoldersName"></div><div class="displayInline">deposited</div>\
+                        <div class="displayInline" ><ul data-bind="foreach: transactions">\
+                        <li data-bind="text:$data"></li></ul></div>'
+
+        })
+
+        var acc = new account(1, "account1", 100)
+        var acc2 = '';
+        var accView = new accountViewModel(acc);
+        ko.applyBindings(accView);
+
+    </script>
+</body>
+
+</html>
+
+
+<!-- Members of Observable Arrays
+indexOf, slice, pop, push, shift ,unshift,reverse, sort,splice, remove, removeALl -->

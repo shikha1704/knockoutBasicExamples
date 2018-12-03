@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Text Input Binding</title>
+</head>
+<body style="margin: 20px;">
+        <div>
+                First Name <input type="text" name="FirstName" data-bind="value:firstName"><br><br>
+                Last Name <input type="text" name="LastName" data-bind="textInput:lastName"><br><br>
+                Hello <span data-bind="text:fullName"></span>
+            </div>
+            <script>
+                console.log("knockout"+ ko);
+                var myName = function(fname,lname){
+                    this.firstName = ko.observable(fname);
+                    this.lastName = ko.observable(lname);
+                    this.fullName = ko.computed(function(){
+                        return this.firstName()+" "+ this.lastName();
+                    },this)
+                }
+                ko.applyBindings(new myName("shikha","chhugani"));
+            </script>
+</body>
+</html>

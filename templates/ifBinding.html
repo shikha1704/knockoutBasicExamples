@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+</head>
+
+<body style="margin: 20px;">
+    <div class="marginBottom" id="ifBinding1">
+        <input type="checkbox" data-bind="checked:displayMessage">check
+        <div data-bind="if: displayMessage">Here is a message. Astonishing.</div>
+    </div>
+
+    <script>
+        ko.applyBindings({
+            displayMessage: ko.observable(false)
+        }, document.getElementById('ifBinding1'));
+    </script>
+
+    <!-- ////////////////////////////when outer container is not there//////////////////////////// -->
+    <div id="ifBinding2" class="marginBottom">
+        <h5>when outer container is not there</h5>
+        <ul>
+            <li>This item always appears</li>
+            <!-- ko if: someExpressionGoesHere -->
+            <li>I want to make this item present/absent dynamically</li>
+            <!-- /ko -->
+        </ul>
+    </div>
+    <script>
+        ko.applyBindings({
+            someExpressionGoesHere: ko.observable(true)
+        }, document.getElementById('ifBinding2'));
+    </script>
+
+
+    <!-- /////////////////// if not binding /////////////////////////////////////// -->
+
+    <div id="ifBinding3" class="marginBottom">
+        <h5>If Not Binding</h5>
+        <ul>
+            <li>This item always appears</li>
+            <div data-bind="ifnot: displayMessage">Here is a message. Astonishing.</div>
+        </ul>
+    </div>
+    <script>
+        ko.applyBindings({
+            displayMessage: ko.observable(false)
+        }, document.getElementById('ifBinding3'));
+    </script>
+
+    <!-- //////////////////// with binding /////////////////////////////////// -->
+
+    <div id="withBindingTest" class="marginBottom">
+        <h5>With Binding</h5>
+        <h6 data-bind="text: city"> </h6>
+        <p data-bind="with: coords">
+            <span class="topicLabelSpan">Latitude:</span>
+            <span data-bind="text: latitude"> </span></p>, 
+            <span class="topicLabelSpan">Longitude:</span>
+            <span data-bind="text: longitude"> </span>
+        </p>
+    </div>
+
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            city: "London",
+            coords: {
+                latitude: 51.5001524,
+                longitude: -0.1262362
+            }
+        }, document.getElementById('withBindingTest'));
+    </script>
+     <!-- ///////////////////////////// with without container ///////////////////////// -->
+
+    <div id="withBinding" class="marginBottom">
+        <h5>With without container </h5>
+        <h6 data-bind="text: city"> </h6>
+        <!-- ko with: coords -->
+        <span class="topicLabelSpan"> Latitude:</span>
+        <span data-bind="text: latitude"> </span>, <span class="topicLabelSpan">Longitude:</span>
+        <span data-bind="text: longitude"> </span>
+        <!-- /ko -->
+    </div>
+
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            city: "London",
+            coords: {
+                latitude: 51.5001524,
+                longitude: -0.1262362
+            }
+        }, document.getElementById('withBinding'));
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+</body>
+
+</html>

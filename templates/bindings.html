@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+
+</head>
+<body style="margin:20px;">
+    <h4> Visible Binding </h4>
+        <div class="marginBottom" id="visibleBinding" data-bind = "visible: showMe">
+                You are seeing this line because showMe function is set to true.
+        </div>
+
+        <script>
+            function AppViewModel() {
+                this.showMe = ko.observable();
+            }
+
+            var vm = new AppViewModel();
+                ko.applyBindings(vm, document.getElementById('visibleBinding'));
+                vm.showMe(true);
+        </script>
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h4> Text Binding </h4>
+        <span>Example 1.</span>
+        <div class="marginBottom" id="div1">
+        Today's message is: <span data-bind="text: myMessage"></span>
+        </div>
+        <script type="text/javascript">
+            var viewModel = {
+                myMessage: ko.observable() 
+            };
+            viewModel.myMessage("Hello!"); 
+            ko.applyBindings(viewModel , document.getElementById('div1'));
+        </script>
+
+        <span>Example 2.</span>
+        <div class="marginBottom" id="div2">
+        The item is <span data-bind="text: priceRating"></span> today.
+        <input type="text" data-bind="value:price">
+        </div>
+        <script>
+            var viewModel1 = {
+                price: ko.observable(56)
+            };
+
+            viewModel1.priceRating = ko.pureComputed(function() {
+                return this.price() > 50 ? "expensive" : "affordable";
+            }, viewModel1);
+            console.log(viewModel1);
+            ko.applyBindings(viewModel1,document.getElementById('div2'));
+        </script>
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+         <h4>Html Binding</h4>
+
+        <div class="marginBottom" id="htmlBinding" data-bind="html: details"></div>
+ 
+        <script type="text/javascript">
+            var viewModelHtml = {
+                details: ko.observable() // Initially blank
+            };
+            viewModelHtml.details("<div>For further details, view the report <a href='report.html'>here</a>.</div>"); // HTML content appears
+            ko.applyBindings(viewModelHtml,document.getElementById('htmlBinding'));
+        </script>
+         
+        </script>
+
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <h4>CSS Binding</h4>
+
+        <span>Static binding example</span>
+        <div class="marginBottom" id="staticBinding" data-bind="css: { profitWarning: currentProfit() < 0 }">
+            Profit Information
+        </div>
+              
+        <script type="text/javascript">
+                 var viewModelCSS = {
+                     currentProfit: ko.observable(150000)
+                 };
+                 viewModelCSS.currentProfit(-10); 
+                 ko.applyBindings(viewModelCSS, document.getElementById('staticBinding'));
+        </script>
+      
+        <span>Dynamic binding example</span>
+
+        <div class="marginBottom" id="dynamicBinding" data-bind="css: profitStatus"> Profit Information       
+            
+             <div class="a" data-bind="css: { profitWarning: currentProfit() < 0 , majorHighlight: isSevere }">include 2 class with 2 conditions</div>
+             <div data-bind="css: { 'profitWarning majorHighlight': isSevere }">include 2 class with single conditions</div>
+
+         </div>
+             <script type="text/javascript">
+                 var viewModelDynamic = {
+                     currentProfit: ko.observable(150000),
+                     isSevere : true
+                 };
+              
+                 viewModelDynamic.profitStatus = ko.pureComputed(function() {
+                     return this.currentProfit() < 0 ? "profitWarning" : "profitPositive";
+                 }, viewModelDynamic);
+              
+                 viewModelDynamic.currentProfit(-50);
+                // viewModelDynamic.isSevere = false;
+                 ko.applyBindings(viewModelDynamic, document.getElementById('dynamicBinding'));
+             </script>
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+             <h4> Style Binding</h4>
+
+                <div class="marginBottom" id="styleBinding" data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black' }">
+                    Profit Information
+
+                 <div data-bind="style: { color: currentProfit() < 0 ? 'red' : 'black', fontWeight: isSevere() ? 'bold' : '' }">123456789</div>
+                 </div>
+                  
+                 <script type="text/javascript">
+                     var viewModelStyle = {
+                         currentProfit: ko.observable(150000),
+                         isSevere : ko.observable(true)
+                     };
+                     
+                     viewModelStyle.currentProfit(-50); 
+                     ko.applyBindings(viewModelStyle,document.getElementById('styleBinding'));
+                 </script>
+
+
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+            <h4>Attribute Binding</h4>
+            <div class="marginBottom"><a id="attrBinding" data-bind="attr: { href: url}">
+                Flipkart
+            </a></div>
+             
+            <script type="text/javascript">
+                var viewModelAttr = {
+                    url: ko.observable("https://www.flipkart.com/"),
+                };
+                ko.applyBindings(viewModelAttr,document.getElementById('attrBinding'));
+            </script>
+        
+<style>
+    .profitWarning{color: lightseagreen;}
+    .profitPositive{color: orange;}
+    .majorHighlight{font-weight: 600;}
+</style>
+</body>
+</html>
+
+
+<!-- Don’t write { font-weight: someValue }; do write { fontWeight: someValue }
+Don’t write { text-decoration: someValue }; do write { textDecoration: someValue } -->

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Custom Binding </title>
+
+    <style>
+    td{
+        width:60px;
+    }
+    </style>
+</head>
+
+<body style="margin: 20px;">
+    <h4>element and value accessor in custom bindings</h4>
+    <div id ="valueAccessor">
+        <table data-bind="foreach:Accounts">
+            <tr data-bind="displayStatus:status">
+                <td data-bind="text:id"></td>
+                <td data-bind="text:name"></td>
+                <td data-bind="text:balance"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script>
+    function Account(id,name,balance,status){
+        this.id=id;
+        this.name=name;
+        this.balance=ko.observable(balance);
+        this.status=ko.observable(status);
+    }
+
+    var myAccountViewModel = new function(){
+        this.Accounts=ko.observableArray([
+            new Account(1,'A1',1000,'active'),
+            new Account(2,'A2',2000,'inactive'),
+            new Account(3,'A3',3000,'closed'),
+            new Account(4,'A4',4000,'active'),
+            new Account(5,'A5',5000,'active'),
+            new Account(6,'A6',6000,'closed'),
+            new Account(7,'A7',7000,'inactive'),
+            new Account(8,'A8',8000,'active')       
+
+        ])
+    }
+
+    ko.bindingHandlers.displayStatus={
+        init:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+        },
+        update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+            var value = ko.unwrap(valueAccessor());
+            console.log(value.toLowerCase);
+            if(value.toLowerCase() == "inactive"){
+                element.style['color'] = 'red';
+                console.log('inside inactive');
+            }
+            else if(value.toLowerCase() == "active"){
+                element.style['color'] = 'green';
+            }
+            else if(value.toLowerCase() == "closed"){
+                element.style['text-decoration'] = 'line-through';
+            }
+        }
+    }
+    ko.applyBindings(myAccountViewModel, document.getElementById('valueAccessor'));
+    </script>
+    <br><br><br>
+    <h4>allBindings in custom bindings</h4>
+
+    <div id ="allBindings">
+            <table data-bind="foreach:Accounts">
+                <tr data-bind="displayStatus:status, colors:['pink','orange']">
+                    <td data-bind="text:id"></td>
+                    <td data-bind="text:name"></td>
+                    <td data-bind="text:balance"></td>
+                </tr>
+            </table>
+    
+        </div>
+    
+        <script>
+        function Account(id,name,balance,status){
+            this.id=id;
+            this.name=name;
+            this.balance=ko.observable(balance);
+            this.status=status;
+        }
+    
+        var myAccountViewModel1 = new function(){
+            this.Accounts=ko.observableArray([
+                new Account(1,'A1',1000,'active'),
+                new Account(2,'A2',2000,'inactive'),
+                new Account(3,'A3',3000,'closed'),
+                new Account(4,'A4',4000,'active'),
+                new Account(5,'A5',5000,'active'),
+                new Account(6,'A6',6000,'closed'),
+                new Account(7,'A7',7000,'inactive'),
+                new Account(8,'A8',8000,'active')       
+    
+            ])
+        }
+    
+        ko.bindingHandlers.displayStatus={
+            init:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+    
+            },
+            update:function(element, valueAccessor, allBindings, viewModel, bindingContext){
+                var value = ko.unwrap(valueAccessor());
+                console.log(value.toLowerCase);
+                var activeColor='';
+                var inActiveColor ='';
+                if(allBindings.has('colors')){
+                 var colorsArray =  allBindings.get('colors');
+                 activeColor = colorsArray[0];
+                 inActiveColor = colorsArray[1];
+                }
+                if(value.toLowerCase() == "inactive"){
+                    element.style['color'] = inActiveColor;
+                    console.log('inside inactive');
+                }
+                else if(value.toLowerCase() == "active"){
+                    element.style['color'] = activeColor;
+                }
+                else if(value.toLowerCase() == "closed"){
+                    element.style['text-decoration'] = 'line-through';
+                }
+            }
+        }
+        ko.applyBindings(myAccountViewModel1, document.getElementById('allBindings'));
+        </script>
+
+</body>
+</html>

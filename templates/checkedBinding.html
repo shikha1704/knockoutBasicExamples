@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Checked Binding</title>
+</head>
+<body style="margin: 20px">
+    <h4>Adding checkboxes bound to an array</h4>
+        <div id="checkedBinding1">
+        <p>Send me fruits: <input type="checkbox" data-bind="checked: wantsfruits" /></p>
+        <div data-bind="visible: wantsfruits">
+            Preferred flavors of fruits:
+            <div><input type="checkbox" value="cherry" data-bind="checked: fruitsFlavors" /> Cherry</div>
+            <div><input type="checkbox" value="almond" data-bind="checked: fruitsFlavors" /> Almond</div>
+            <div><input type="checkbox" value="msg" data-bind="checked: fruitsFlavors" /> Apple</div>
+        </div>
+        </div> 
+        
+        <!-- Special consideration is given if your parameter resolves to an array. 
+        In this case, KO will set the element to be checked if the value matches an item in the array, 
+        and unchecked if it is not contained in the array. -->
+
+        <script type="text/javascript">
+            var viewModel = {
+                wantsfruits: ko.observable(true),
+                fruitsFlavors: ko.observableArray(["cherry","almond"]) // Initially checks the Cherry and Almond checkboxes
+            };
+         
+            //viewModel.fruitsFlavors.push("msg");
+            // Now additionally checks the Monosodium Glutamate checkbox
+            ko.applyBindings(viewModel,document.getElementById('checkedBinding1'));
+        </script>
+
+<br><br><br>
+
+<h4>Adding radio bound to an array</h4>
+
+        <div id="checkedBinding2">
+            <p>Send me fruits: <input type="checkbox" data-bind="checked: wantsfruits" /></p>
+                <div data-bind="visible: wantsfruits">
+                    Preferred flavor of fruits:
+                    <div><input type="radio" name="flavorGroup" value="cherry" data-bind="checked: fruitsFlavor" /> Cherry</div>
+                    <div><input type="radio" name="flavorGroup" value="almond" data-bind="checked: fruitsFlavor" /> Almond</div>
+                    <div><input type="radio" name="flavorGroup" value="msg" data-bind="checked: fruitsFlavor" /> Monosodium Glutamate</div>
+            </div>
+        </div>
+                 
+                <script type="text/javascript">
+                    var viewModel1 = {
+                        wantsfruits: ko.observable(true),
+                        fruitsFlavor: ko.observable("almond") // Initially selects only the Almond radio button
+                    };
+                 
+                    // ... then later ...
+                    //viewModel1.fruitsFlavor("msg");
+                     // Now only Monosodium Glutamate is checked
+                    ko.applyBindings(viewModel1,document.getElementById('checkedBinding2'));
+                </script>
+</body>
+</html>

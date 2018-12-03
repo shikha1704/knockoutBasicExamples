@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="knockout.js"></script>
+    <title>First Knockout Example</title>
+    <style>
+        .topicLabel {
+            font-size: 18px;
+            font-family: segoe ui;
+            font-weight: 500;
+            width: 300px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-header">
+        <h2>Basics</h2>
+    </div>
+
+    <span class="topicLabel">FirstName:
+        <span data-bind="text:firstName"></span>
+    </span>
+    <br>
+    <span class="topicLabel">LastName:
+        <span data-bind="text:lastName"></span>
+    </span>
+
+
+    <script>
+        function appViewModel() {
+            this.firstName = "shikha";
+            this.lastName = "chhugani";
+        }
+        ko.applyBindings(new appViewModel());
+
+// ko.applyBindings(object);  this will activate knockout. 
+
+// a.	The first parameter says what view model object you want to use with the declarative bindings it activates
+
+// b.	Optionally, you can pass a second parameter to define which part of the document
+// you want to search for data-bind attributes. 
+// which is useful if you want to have multiple view models and associate each with a different region of the page.
+
+
+    </script>
+</body>
+
+</html>

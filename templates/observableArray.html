@@ -1,0 +1,112 @@
+<!-- displaying account details based on the account selected in the array and trying to do 
+push pop in observable arrays -->
+
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body style="margin-left: 20px">
+
+    <h5 class="marginTop20">Dropdown</h5>
+
+    <div class="selectedAccountDiv">
+        <select id="selectedAccount" data-bind="options:accounts, optionsText:'name',optionsValue:'id'">
+        </select>
+    </div>
+    <div class="lengthDiv">
+        <span class="topicLabelSpan">Length: </span>
+        <span data-bind="text:accounts().length"></span>
+    </div>
+
+    <h5 class="marginTop20">Account Details</h5>
+    <div>
+        <span class="topicLabelAccount">Account Id :</span>
+        <span data-bind="text:accounts()[selectedAccountIndex()].id"></span>
+        <br>
+        <span class="topicLabelAccount">Account Name :</span>
+        <span data-bind="text:accounts()[selectedAccountIndex()].name"></span>
+        <br>
+        <span class="topicLabelAccount"> Balance :</span>
+        <span data-bind="text:accounts()[selectedAccountIndex()].balance"></span>
+    </div>
+
+    <h5 class="marginTop20">Adding an array to observable</h5>
+    <div class="nameSection">
+        <span class="topicLabelAccount1">Id to be Added :</span>
+        <input type="text" id="addNewId">
+    </div>
+
+    <div class="nameSection">
+        <span class="topicLabelAccount1">Name to be Added :</span>
+        <input type="text" id="addNewName">
+    </div>
+
+    <div class="nameSection">
+        <span class="topicLabelAccount1"> Balance to be Added :</span>
+        <input type="text" id="addNewBalance">
+    </div>
+    
+    <input class="btn btn-primary btnWidth" type="button" id="addAccountButton" value="Add New Acount">
+    <br>
+
+
+    <h5 class="marginTop20">Poping value from observable array</h5>
+    <input class="btn btn-primary btnWidth" type="button" id="popAccountButton" value="Pop Acount">
+
+    <script>
+        ///model
+        var account = function (id, name, balance) {
+            this.id = id;
+            this.name = name;
+            this.balance = balance;
+        };
+
+        //view model
+        var accountViewModel = function (acc) {
+            this.id = acc.id;
+            this.name = acc.name;
+            this.balance = ko.observable(acc.balance);
+            var a1 = new account(1, "A1", 10000);
+            var a2 = new account(2, "A2", 20000);
+            var a3 = new account(3, "A3", 30000);
+            this.accounts = ko.observableArray([a1, a2, a3]);
+            this.selectedAccountIndex = ko.observable(0);
+        };
+
+        var acc = new account(1, "account1", 100)
+        var acc2 = '';
+        console.log(acc instanceof account);
+        console.log(acc2 instanceof account);
+        var accView = new accountViewModel(acc);
+        console.log(accountViewModel);
+        ko.applyBindings(accView)
+
+
+        $("#addAccountButton").click(function () {
+            var accountAdded = new account($("#addNewId").val(), $("#addNewName").val(), $("#addNewBalance").val());
+            accView.accounts.push(accountAdded);
+        })
+
+        $("#popAccountButton").click(function () {
+            accView.accounts.pop();
+        })
+
+        $("#selectedAccount").change(function () {
+            var selInd = document.getElementById("selectedAccount").selectedIndex;
+            accView.selectedAccountIndex(selInd);
+        })
+
+    </script>
+</body>
+
+</html>
+
+
+<!-- Members of Observable Arrays
+indexOf, slice, pop, push, shift ,unshift,reverse, sort,splice, remove, removeALl -->

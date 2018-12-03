@@ -1,0 +1,182 @@
+<!-- 
+The foreach binding duplicates a section of markup for each entry in an array, 
+and binds each copy of that markup to the corresponding array item. 
+This is especially useful for rendering lists or tables -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body style="margin:20px 20px">
+
+    <h5>For Each </h5>
+    <div class="marginBottom" id="forEach1">
+        <table class="tableWidth">
+            <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: people">
+                <tr>
+                    <td data-bind="text: firstName"></td>
+                    <td data-bind="text: lastName"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            people: [
+                { firstName: 'Bert', lastName: 'Bertington' },
+                { firstName: 'Charles', lastName: 'Charlesforth' },
+                { firstName: 'Denise', lastName: 'Dentiste' }
+            ]
+        }, document.getElementById('forEach1'));
+    </script> 
+    
+    <!-- ////////////////////////////// $index Example //////////////////////////////////// -->
+    <div class="marginBottom">
+    <div id="forEach2">
+        <h6>$index Example</h6>
+        <h6>People</h6>
+        <ul data-bind="foreach: people">
+            <li>
+                Name at position
+                <span data-bind="text: $index"> </span>:
+                <span data-bind="text: name"> </span>
+                <a href="#" data-bind="click: $parent.removePerson">Remove</a>
+            </li>
+        </ul>
+        <button class="btn btn-primary btnWidth" data-bind="click: addPerson">Add</button>
+
+    </div></div>
+
+    <script>
+        function AppViewModel() {
+            var self = this;
+
+            self.people = ko.observableArray([
+                { name: 'Bert' },
+                { name: 'Charles' },
+                { name: 'Denise' }
+            ]);
+
+            self.addPerson = function () {
+                self.people.push({ name: "New at " + new Date() });
+            };
+
+            self.removePerson = function () {
+                self.people.remove(this);
+            }
+        }
+
+        ko.applyBindings(new AppViewModel(), document.getElementById("forEach2"));
+
+    </script> 
+
+    <!-- ////////////////////////////// $data Example //////////////////////////////////// -->
+    <div class="marginBottom" id="forEach3">
+        <h6>$data concept</h6>
+        <ul data-bind="foreach: months">
+            <li>
+                The current item is:
+                <b data-bind="text: $data"></b>
+                <!-- $data - refer to currentItem in the array -->
+            </li>
+        </ul>
+
+    </div>
+
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            months: ['Jan', 'Feb', 'Mar', 'etc']
+        }, document.getElementById("forEach3"));
+    </script> 
+    
+    <!-- ////////////////////////////////// $parent concept ///////////////////////////// -->
+
+    <div id="forEach4" class="marginBottom">
+        <h6>$parent Concept</h6>
+        <br>
+        <h6 data-bind="text: blogPostTitle"></h6>
+        <ul data-bind="foreach: likes">
+            <li>
+                <b data-bind="text: $data.name"></b> likes the blog post
+                <b data-bind="text: $parent.blogPostTitle"></b>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            likes: [
+                { name: 'Bert' },
+                { name: 'Charles' },
+                { name: 'Denise' }],
+            blogPostTitle: 'likes'
+        }, document.getElementById("forEach4"));
+    </script>
+    
+    <!-- /////////////////////////////////As concept/////////////////////////////////////////////// -->
+
+    <div id="forEach5" class="marginBottom">
+        <h6>As Concept</h6>
+        <ul data-bind="foreach: { data: categories, as: 'category' }">
+            <li>
+                <ul data-bind="foreach: { data: items, as: 'item' }">
+                    <li>
+                        <span data-bind="text: category.name"></span>:
+                        <span data-bind="text: item"></span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        var viewModel = {
+            categories: ko.observableArray([
+                { name: 'Fruit', items: ['Apple', 'Orange', 'Banana'] },
+                { name: 'Vegetables', items: ['Celery', 'Corn', 'Spinach'] }
+            ])
+        };
+        ko.applyBindings(viewModel, document.getElementById('forEach5'));
+    </script> 
+    
+    <!-- ////////////////////////// For each without a container element ///////////////// -->
+
+    <div id="forEach6" class="marginBottom">
+        <h6>For each without a container element</h6>
+        <ul>
+            <li class="header">Header item</li>
+            <!-- ko foreach: myItems -->
+            <li>Item
+                <span data-bind="text: $data"></span>
+            </li>
+            <!-- /ko -->
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        ko.applyBindings({
+            myItems: ['A', 'B', 'C']
+        }, document.getElementById('forEach6'));
+    </script> 
+    
+</body>
+
+</html>

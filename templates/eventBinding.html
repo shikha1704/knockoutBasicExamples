@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="knockout.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Event Binding</title>
+</head>
+
+<body style="margin: 20px;">
+    <h5>Event Binding</h5>
+    <div id="eventBinding" class="marginBottom">
+        <div data-bind="event: { mouseover: enableDetails, mouseout: disableDetails }" class="mouseoverDiv">
+            Mouse over me
+        </div>
+        <div data-bind="visible: detailsEnabled">
+            Details
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var viewModel = {
+            detailsEnabled: ko.observable(false),
+            enableDetails: function () {
+                this.detailsEnabled(true);
+            },
+            disableDetails: function () {
+                this.detailsEnabled(false);
+            }
+        };
+        ko.applyBindings(viewModel, document.getElementById('eventBinding'));
+    </script>
+
+
+    <!-- //////////////////////////////////////////////////////////////////////////////// -->
+
+
+    <div id="submitBinding" class="marginBottom">
+
+        <h5>Submit Binding</h5>
+
+        <form data-bind="submit:formSubmitFunction">
+            FirstName :
+            <input type="text" data-bind="value:firstName"> LastName :
+            <input type="text" data-bind="value:lastName">
+            <br><br>
+            <button class="btn btn-primary btnWidth">submit</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        var viewModel1 = {
+            formSubmitFunction: function (formElement) {
+                console.log(formElement);
+                // can use form level validations like valid , invalid on this form element.
+            },
+            firstName: 'Shikha',
+            lastName: 'Chhugani'
+        };
+        ko.applyBindings(viewModel1, document.getElementById('submitBinding'));
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////////////////////////// -->
+
+
+    <div id="enableBinding" class="marginBottom">
+        <h5>Enable Binding</h5>
+        <p>
+            <input type='checkbox' data-bind="checked: hasCellphone" /> I have a cellphone
+        </p>
+        <p>
+            Your cellphone number:
+            <input type='text' data-bind="value: cellphoneNumber, enable: hasCellphone" />
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        var viewModelEnable = {
+            hasCellphone: ko.observable(false),
+            cellphoneNumber: ""
+        };
+        ko.applyBindings(viewModelEnable, document.getElementById('enableBinding'));
+    </script>
+
+</body>
+
+</html>
